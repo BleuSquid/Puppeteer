@@ -50,7 +50,7 @@ namespace Puppeteer
 			return PawnSettings.SettingsFor(pawn).enabled;
 		}
 
-		public override void SetValue(Pawn pawn, bool value)
+		public override void SetValue(Pawn pawn, bool value, PawnTable table)
 		{
 			PawnSettings.SettingsFor(pawn).enabled = value;
 		}

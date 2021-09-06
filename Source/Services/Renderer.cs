@@ -11,34 +11,6 @@ using Verse;
 
 namespace Puppeteer
 {
-	[HarmonyPatch(typeof(PawnRenderer))]
-	[HarmonyPatch(nameof(PawnRenderer.RenderPortrait))]
-	static class PawnRenderer_RenderPortrait_Patch
-	{
-		public static Rot4 CustomDirection(Pawn pawn)
-		{
-			return pawn.RaceProps.Humanlike ? Rot4.South : Rot4.East;
-		}
-
-		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-		{
-			var get_South = AccessTools.PropertyGetter(typeof(Rot4), nameof(Rot4.South));
-			var pawn = AccessTools.Field(typeof(PawnRenderer), "pawn");
-			var customDirection = SymbolExtensions.GetMethodInfo(() => CustomDirection(null));
-			foreach (var code in instructions)
-			{
-				if (code.Calls(get_South))
-				{
-					yield return new CodeInstruction(OpCodes.Ldarg_0);
-					yield return new CodeInstruction(OpCodes.Ldfld, pawn);
-					yield return new CodeInstruction(OpCodes.Call, customDirection);
-				}
-				else
-					yield return code;
-			}
-		}
-	}
-
 	[HarmonyPatch]
 	public static class ReversePatches
 	{
@@ -75,7 +47,8 @@ namespace Puppeteer
 			if (pawn.RaceProps.Humanlike == false)
 				drawSize = pawn.ageTracker.CurKindLifeStage.bodyGraphicData.drawSize;
 			var scale = Mathf.Max(drawSize.x, drawSize.y) + 1;
-			var renderTexture = PortraitsCache.Get(pawn, boundings, new Vector3(0f, 0f, 0.11f), extraScale / scale);
+			var customDirection = pawn.RaceProps.Humanlike ? Rot4.South : Rot4.East;
+			var renderTexture = PortraitsCache.Get(pawn, boundings, customDirection, new Vector3(0f, 0f, 0.11f), extraScale / scale);
 			var w = renderTexture.width;
 			var h = renderTexture.height;
 			var portrait = new Texture2D(w, h, TextureFormat.ARGB32, false);
@@ -186,9 +159,16 @@ namespace Puppeteer
 			GL.PushMatrix();
 			GL.LoadPixelMatrix(0, count * size, size, 0);
 			var rect = new Rect(0, 0, size, size);
+
+			GizmoRenderParms GRP = new GizmoRenderParms
+			{
+				highLight = true,
+				lowLight = false,
+				shrunk = false
+			};
 			for (var i = 0; i < count; i++)
 			{
-				_ = commands[i].GizmoOnGUI(new Vector2(i * size, 0), 100000);
+				_ = commands[i].GizmoOnGUI(new Vector2(i * size, 0), 100000, GRP);
 				rect.x += size;
 			}
 			GL.PopMatrix();

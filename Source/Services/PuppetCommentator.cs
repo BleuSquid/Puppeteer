@@ -59,7 +59,7 @@ namespace Puppeteer
 				var height = puppetTex.height;
 				var winRect = new Rect(xPos, yPos, puppetTex.width, puppetTex.height);
 
-				DrawHead(winRect, () => _ = Process.Start("https://puppeteer.rimworld.live"));
+				DrawHead(winRect, () => _ = Process.Start("https://pupp3t.live"));
 				if (puppetOut >= 0.8f)
 					DrawBubble(xPos, yPos, height);
 			}

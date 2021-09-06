@@ -69,7 +69,7 @@ namespace Puppeteer
 	}
 
 	[HarmonyPatch(typeof(FloatMenuOption), MethodType.Constructor)]
-	[HarmonyPatch(new[] { typeof(string), typeof(Action), typeof(MenuOptionPriority), typeof(Action), typeof(Thing), typeof(float), typeof(Func<Rect, bool>), typeof(WorldObject) })]
+	[HarmonyPatch(new[] { typeof(string), typeof(Action), typeof(MenuOptionPriority), typeof(Action<Rect>), typeof(Thing), typeof(float), typeof(Func<Rect, bool>), typeof(WorldObject), typeof(bool), typeof(int) })]
 	static class FloatMenuOption_Constructor_Patch
 	{
 		[HarmonyPriority(Priority.First)]

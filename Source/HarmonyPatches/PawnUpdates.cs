@@ -111,7 +111,7 @@ namespace Puppeteer
 		[HarmonyPriority(Priority.First)]
 		public static void Prefix(ref Bounds bounds)
 		{
-			if (Renderer.renderOffset == 0f) return;
+			if (Renderer.RenderOffsetVector == Vector3.zero) return;
 			bounds.center += Renderer.RenderOffsetVector;
 		}
 	}
@@ -199,7 +199,7 @@ namespace Puppeteer
 
 	[HarmonyPatch(typeof(PawnRenderer))]
 	[HarmonyPatch("RenderPawnInternal")]
-	[HarmonyPatch(new Type[] { typeof(Vector3), typeof(float), typeof(bool), typeof(Rot4), typeof(Rot4), typeof(RotDrawMode), typeof(bool), typeof(bool), typeof(bool) })]
+	[HarmonyPatch(new Type[] { typeof(Vector3), typeof(float), typeof(bool), typeof(Rot4), typeof(RotDrawMode), typeof(PawnRenderFlags) })]
 	static class PawnRenderer_RenderPawnInternal_Patch
 	{
 		public static void Prefix(Pawn ___pawn)

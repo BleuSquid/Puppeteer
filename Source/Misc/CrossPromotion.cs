@@ -346,7 +346,7 @@ namespace CrossPromotionModule
 			var headerHeight = 30f;
 			var headerRect = new Rect(leftColumn + 10f, -4f, rightColumn - 20f, headerHeight);
 			Text.Anchor = TextAnchor.UpperCenter;
-			Widgets.Label(headerRect, "Mods of " + mod.Author.Replace("Andreas Pardeike", "Brrainz") + ":".Truncate(headerRect.width, null));
+			Widgets.Label(headerRect, "Mods of " + mod.CrossVersionAuthor().Replace("Andreas Pardeike", "Brrainz") + ":".Truncate(headerRect.width, null));
 			Text.Anchor = TextAnchor.UpperLeft;
 
 			var outRect = new Rect(leftColumn + 10f, headerHeight - 4f, rightColumn, mainRect.height - (headerHeight - 4f));
@@ -506,5 +506,32 @@ namespace CrossPromotionModule
 			: base(text, buttonAText, buttonAAction, buttonBText, buttonBAction, title, buttonADestructive, acceptAction, cancelAction) { }
 
 		public override Vector2 InitialSize => new Vector2(320, 240);
+	}
+
+	internal static class CrossVersionMethods
+	{
+		internal static string CrossVersionAuthor(this ModMetaData mod)
+		{
+			var str1 = Traverse.Create(mod).Property("AuthorsString").GetValue<string>();
+			var str2 = Traverse.Create(mod).Property("Author").GetValue<string>();
+			return (str1 ?? str2).Replace("Andreas Pardeike", "Brrainz");
+		}
+		
+		private static MethodInfo mButtonText = null;
+		private static object[] buttonTextDefaults = new object[0];
+		internal static bool CrossVersionButtonText(this WidgetRow row, string label, string tooltip = null, bool drawBackground = true, bool doMouseoverSound = true)
+		{
+			if (mButtonText == null)
+			{
+				mButtonText = AccessTools.Method(typeof(WidgetRow), nameof(WidgetRow.ButtonText));
+				buttonTextDefaults = mButtonText.GetParameters().Select(p => p.DefaultValue).ToArray();
+			}
+			var parameters = buttonTextDefaults;
+			parameters[0] = label;
+			parameters[1] = tooltip;
+			parameters[2] = drawBackground;
+			parameters[3] = doMouseoverSound;
+			return (bool)mButtonText.Invoke(row, parameters);
+		}
 	}
 }

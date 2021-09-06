@@ -9,6 +9,9 @@ namespace Puppeteer
 		public const string tokenFilename = "PuppeteerToken.txt";
 		public static string token = ReadToken();
 
+		private const string devServer = "ws://localhost:3000";
+		private const string pubServer = "wss://pupp3t.live";
+
 		public WebSocket ws;
 		readonly string endpoint;
 		readonly ICommandProcessor processor;
@@ -19,7 +22,8 @@ namespace Puppeteer
 		public Connection(ICommandProcessor processor)
 		{
 			this.processor = processor;
-			endpoint = Tools.IsLocalDev ? "ws://localhost:3000" : "ws://138.128.246.196"; // "wss://puppeteer.rimworld.live";
+		
+			endpoint = Tools.IsLocalDev ? devServer : pubServer;
 			TryConnect();
 		}
 

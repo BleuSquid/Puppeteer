@@ -371,7 +371,7 @@ namespace Puppeteer
 			{
 				_ = GenSpawn.Spawn(pawn, loc, map, WipeMode.Vanish);
 				for (var i = 0; i < 10; i++)
-					MoteMaker.ThrowAirPuffUp(pawn.DrawPos, map);
+					FleckMaker.ThrowAirPuffUp(pawn.DrawPos, map);
 				if (pawn.apparel != null)
 				{
 					var wornApparel = pawn.apparel.WornApparel;
@@ -394,7 +394,7 @@ namespace Puppeteer
 			pawn.Position = startLocation;
 			pawn.Notify_Teleported(true, true);
 			for (var i = 0; i < 10; i++)
-				MoteMaker.ThrowAirPuffUp(startLocation.ToVector3(), map);
+				FleckMaker.ThrowAirPuffUp(startLocation.ToVector3(), map);
 		}
 
 		public static void AutoExposeDataWithDefaults<T>(this T settings) where T : new()

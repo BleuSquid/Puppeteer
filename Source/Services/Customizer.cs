@@ -9,7 +9,7 @@ namespace Puppeteer
 {
 	public static class Customizer
 	{
-		static List<HairDef> HairDefs => DefDatabase<HairDef>.AllDefs.Where(hair => hair.hairTags.SharesElementWith(FactionDefOf.PlayerColony.hairTags)).ToList();
+		static List<HairDef> HairDefs => DefDatabase<HairDef>.AllDefs.ToList();
 		static List<BodyTypeDef> BodyDefs => DefDatabase<BodyTypeDef>.AllDefs.ToList();
 
 		public static string[] AllHairStyle => HairDefs.Select(hair => GenText.CapitalizeAsTitle(hair.label)).OrderBy(s => s).ToArray();
@@ -39,7 +39,10 @@ namespace Puppeteer
 
 		public static void ChangeHairStyle(Pawn pawn, string label)
 		{
-			var style = HairDefs.FirstOrDefault(hair => hair.defName.ToLower() == label.ToLower());
+			// TODO: Limit styles to those allowed by pawn's ideology
+			var allowedStyles = DefDatabase<HairDef>.AllDefs.Where((HairDef) => PawnStyleItemChooser.WantsToUseStyle(pawn, HairDef));
+			var style = allowedStyles.FirstOrDefault(hair => hair.defName.ToLower() == label.ToLower());
+
 			if (style == null) return;
 			pawn.story.hairDef = style;
 			RerenderPawn(pawn);

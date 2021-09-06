@@ -508,5 +508,17 @@
 				]
 			}
 		]
+	},
+	{
+		"version": "1.6.0.0",
+		"infos": [
+			{
+				"title": "1.3 / Ideology Update",
+				"texts": [
+					"First attempt at porting to v1.3 and Ideology. There almost certainly may be bugs!"
+				]
+			}
+		]
 	}
+	
 ]
