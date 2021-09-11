@@ -519,6 +519,17 @@
 				]
 			}
 		]
+	},
+	{
+		"version": "1.6.1.0",
+		"infos": [
+			{
+				"title": "Bug fix",
+				"texts": [
+					"Fix: Prevent Player.log from filling with 'Look Rotation Viewing Vector Is Zero' messages"
+				]
+			}
+		]
 	}
 	
 ]

@@ -123,7 +123,7 @@ namespace Puppeteer
 		[HarmonyPriority(Priority.First)]
 		public static void Prefix(ref Vector3 position)
 		{
-			if (Renderer.renderOffset == 0f) return;
+			if (Renderer.RenderOffsetVector == Vector3.zero) return;
 			position += Renderer.RenderOffsetVector;
 		}
 	}
@@ -135,7 +135,7 @@ namespace Puppeteer
 		[HarmonyPriority(Priority.First)]
 		public static void Prefix(ref Matrix4x4 matrix)
 		{
-			if (Renderer.renderOffset == 0f) return;
+			if (Renderer.RenderOffsetVector == Vector3.zero) return;
 			matrix = matrix.OffsetRef(Renderer.RenderOffsetVector);
 		}
 	}
