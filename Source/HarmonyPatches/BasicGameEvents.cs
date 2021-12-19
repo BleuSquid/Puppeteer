@@ -119,7 +119,7 @@ namespace Puppeteer
 			{
 				firstTimeCounter--;
 				if (firstTimeCounter == 0)
-					Tools.LogWarning("Hello");
+					Tools.LogWarning("Puppeteer is initialised!");
 			}
 
 			PuppetCommentator.Update();
