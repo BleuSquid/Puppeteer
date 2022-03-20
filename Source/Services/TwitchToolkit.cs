@@ -16,7 +16,7 @@ using static HarmonyLib.AccessTools;
 namespace Puppeteer
 {
 	[StaticConstructorOnStartup]
-	public static class TwitchToolkit
+	public static class TwitchToolkitMod
 	{
 		static readonly Action<object, OnMessageReceivedArgs> OnMessageReceived = Tools.GetOptionalMethod<Action<object, OnMessageReceivedArgs>>("ToolkitCore.TwitchWrapper", "OnMessageReceived");
 		static readonly Func<string, object> GetViewer = Tools.GetOptionalMethod<Func<string, object>>("TwitchToolkit.Viewers", "GetViewer");
@@ -94,130 +94,101 @@ namespace Puppeteer
 			OnMessageReceived(null, messageArgs);
 		}
 
-		[HarmonyPatch]
-		static class TwitchWrapper_SendChatMessage_Wrapper_Patches
-		{
-			static MethodInfo method;
-			static Type iTwitchMessage;
-			static MethodInfo iTwitchMessage_Username;
-			static Type viewer;
-			static FieldInfo viewer_username;
 
+		[HarmonyPatch]
+		static class TwitchWrapper_SendChatMessage_Patch
+		{
+			static readonly MethodBase method = Method("ToolkitCore.TwitchWrapper:SendChatMessage");
 			static readonly Regex parser = new Regex("(.*)\\@([^ ]+)(.*)");
 			static readonly Regex byRemover = new Regex(" by$");
 
-			public static bool Prepare(MethodInfo original)
+			public static bool Prepare()
 			{
-				if (original == null)
-				{
-					method = Method("ToolkitCore.TwitchWrapper:SendChatMessage");
-					iTwitchMessage = TypeByName("TwitchLib.Client.Models.Interfaces.ITwitchMessage");
-					iTwitchMessage_Username = iTwitchMessage != null ? PropertyGetter(iTwitchMessage, "Username") : null;
-					viewer = TypeByName("TwitchToolkit.Viewer");
-					viewer_username = viewer != null ? Field(viewer, "username") : null;
+				return method != null;
+			}
 
-					return method != null && iTwitchMessage_Username != null && viewer_username != null;
+			public static MethodBase TargetMethod()
+			{
+				return method;
+			}
+
+			public static bool Prefix(string message)
+			{
+				if (!message.Contains('→') && !message.StartsWith("@"))
+                {
+					return true;
+                }
+
+				/*var match = parser.Match(message);
+				if (!match.Success)
+				{
+					return true;
+				}*/
+
+				var username = getname(message);
+				var newmessage = getmessage(message);
+				var puppeteer = State.Instance.PuppeteerForViewerName(username);
+
+				if (username == "" || newmessage == "")
+                {
+					string[] test = message.Split(' ');
+					puppeteer = State.Instance.PuppeteerForViewerName(test[0]);
+					if(puppeteer == null)
+                    {
+						return true;
+					}
+					newmessage = message.Substring(test[0].Length + 1);
 				}
+
+				if (puppeteer == null || puppeteer.connected == false) return true;
+
+				Controller.instance.SendChatMessage(puppeteer.vID, newmessage);
+				if (!PuppeteerMod.Settings.sendChatResponsesToTwitch)
+                {
+					return false;
+                }
 				return true;
 			}
 
-			public static IEnumerable<MethodBase> TargetMethods()
-			{
-				var toolkitAssembly = TypeByName("TwitchToolkit.TwitchToolkit").Assembly;
-				return toolkitAssembly.GetTypes().SelectMany(type => GetDeclaredMethods(type)).Where(caller =>
+			private static string getname(string message)
+            {
+				string sendback = "";
+
+				if (message.Contains("→"))
 				{
-					if (caller.IsAbstract) return false;
-					if (caller.IsGenericMethod) return false;
-					var parameterTypes = caller.GetParameters().Select(p => p.ParameterType);
-					if (parameterTypes.FirstIndex(t => t == iTwitchMessage) >= 0) return true;
-					if (parameterTypes.FirstIndex(t => t == viewer) >= 0) return true;
-					if (PropertyGetter(caller.DeclaringType, "Viewer") != null) return true;
-					if (caller.GetParameters().Any(p => p.ParameterType == typeof(string) && p.Name == "username")) return true;
-					return false;
-				}).Cast<MethodBase>();
-			}
-
-			public static void SendChatMessage(string message, string userName)
-			{
-				//Tools.LogWarning($"SendChatMessage [{userName}] [{message}]");
-
-				var originalMessage = message;
-				var match = parser.Match(message);
-				if (match.Success)
+					var parts = message.Split('→').ToList();
+					var userName = parts[0].Trim();
+					if (userName.StartsWith("@")) userName = userName.Substring(1);
+					sendback = userName;
+				}
+				else if(message.StartsWith("@"))
 				{
-					userName = match.Groups[2].Value;
-
-					var msg1 = match.Groups[1].Value.Trim();
-					msg1 = byRemover.Replace(msg1, "");
-
-					var mgs2 = match.Groups[3].Value.Trim();
-					message = $"{msg1} {mgs2}".Trim();
+					string[] name = message.Split(' ');
+					sendback = name[0].Substring(1);
 				}
 
-				var puppeteer = State.Instance.PuppeteerForViewerName(userName);
-				if (puppeteer == null || puppeteer.IsConnected == false)
+				return sendback;
+            }
+
+			private static string getmessage(string message)
+            {
+				string sendback = "";
+
+				if (message.Contains("→"))
 				{
-					_ = method.Invoke(null, new object[] { originalMessage });
-					return;
+					var parts = message.Split('→').ToList();
+					var m1 = parts[1].Trim();
+					sendback = m1;
+				}
+				else if (message.StartsWith("@"))
+				{
+					int i = message.IndexOf(" ") + 1;
+					string str = message.Substring(i);
+					sendback = str;
 				}
 
-				Controller.instance.SendChatMessage(puppeteer.vID, message);
-				if (PuppeteerMod.Settings.sendChatResponsesToTwitch)
-					_ = method.Invoke(null, new object[] { message });
-			}
-
-			public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, MethodBase caller)
-			{
-				var replacement = SymbolExtensions.GetMethodInfo(() => SendChatMessage("", ""));
-				foreach (var instr in instructions)
-				{
-					if (instr.Calls(method))
-					{
-						int idx;
-						var found = false;
-						var parameterTypes = caller.GetParameters().Select(p => p.ParameterType);
-						idx = parameterTypes.FirstIndex(t => t == iTwitchMessage);
-						if (idx >= 0)
-						{
-							if (caller.IsStatic == false) idx++;
-							yield return new CodeInstruction(OpCodes.Ldarg, idx);
-							yield return new CodeInstruction(OpCodes.Call, iTwitchMessage_Username);
-							found = true;
-						}
-						else
-						{
-							idx = parameterTypes.FirstIndex(t => t == viewer);
-							if (idx >= 0)
-							{
-								if (caller.IsStatic == false) idx++;
-								yield return new CodeInstruction(OpCodes.Ldarg, idx);
-								yield return new CodeInstruction(OpCodes.Ldfld, viewer_username);
-								found = true;
-							}
-							else if (PropertyGetter(caller.DeclaringType, "Viewer") != null && caller.IsStatic == false)
-							{
-								yield return new CodeInstruction(OpCodes.Ldarg_0);
-								yield return new CodeInstruction(OpCodes.Ldfld, viewer_username);
-								found = true;
-							}
-							else
-							{
-								idx = caller.GetParameters().FirstIndex(p => p.ParameterType == typeof(string) && p.Name == "username");
-								if (idx >= 0)
-								{
-									if (caller.IsStatic == false) idx++;
-									yield return new CodeInstruction(OpCodes.Ldarg, idx);
-									found = true;
-								}
-							}
-						}
-
-						if (found)
-							instr.operand = replacement;
-					}
-					yield return instr;
-				}
-			}
+				return sendback;
+            }
 		}
 	}
 

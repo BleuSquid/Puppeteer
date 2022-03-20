@@ -70,7 +70,7 @@ namespace Puppeteer
 			if (pawn?.Map != null) Tools.SetColonistNickname(pawn, vID.name);
 			State.Save();
 			SendAllState(connection, vID);
-			TwitchToolkit.RefreshViewers();
+			TwitchToolkitMod.RefreshViewers();
 		}
 
 		public static void Leave(ViewerID vID)
@@ -101,7 +101,7 @@ namespace Puppeteer
 		public static void SendToolkitCommands(Connection connection, ViewerID vID)
 		{
 			if (connection == null) return;
-			var commands = TwitchToolkit.GetAllCommands();
+			var commands = TwitchToolkitMod.GetAllCommands();
 			connection.Send(new ToolkitCommands() { viewer = vID, commands = commands });
 		}
 
@@ -144,7 +144,7 @@ namespace Puppeteer
 			var features = new List<string>();
 			if (ModLister.RoyaltyInstalled)
 				features.Add("royalty");
-			if (TwitchToolkit.Exists)
+			if (TwitchToolkitMod.Exists)
 			{
 				features.Add("twitch-toolkit");
 				// TwitchToolkit.SendMessage(vID.id, vID.name, "bal");
@@ -189,7 +189,7 @@ namespace Puppeteer
 		public static void SendCoins(Connection connection, State.Puppeteer puppeteer)
 		{
 			if (puppeteer == null) return;
-			var coins = TwitchToolkit.GetCurrentCoins(puppeteer.vID.name);
+			var coins = TwitchToolkitMod.GetCurrentCoins(puppeteer.vID.name);
 			connection.Send(new Earned() { viewer = puppeteer.vID, info = new Earned.Info() { amount = coins } });
 		}
 
@@ -574,7 +574,7 @@ namespace Puppeteer
 			OperationQueue.Add(OperationType.Gear, () => SendGear(connection, vID));
 			OperationQueue.Add(OperationType.Inventory, () => SendInventory(connection, vID));
 
-			if (TwitchToolkit.Exists)
+			if (TwitchToolkitMod.Exists)
 				SendToolkitCommands(connection, vID);
 		}
 
