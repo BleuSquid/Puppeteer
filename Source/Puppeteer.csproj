@@ -41,6 +41,7 @@
 		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
 		<PackageReference Include="TwitchLib.Client" Version="3.1.4">
 			<PrivateAssets>all</PrivateAssets>
+			<ExcludeAssets>runtime; build;</ExcludeAssets>
 		</PackageReference>
 		<PackageReference Include="WebSocketSharp" Version="1.0.3-rc11" />
 	</ItemGroup>
