@@ -39,7 +39,9 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
-		<PackageReference Include="TwitchLib.Client" Version="3.1.4" />
+		<PackageReference Include="TwitchLib.Client" Version="3.1.4">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
 		<PackageReference Include="WebSocketSharp" Version="1.0.3-rc11" />
 	</ItemGroup>
 
@@ -47,6 +49,10 @@
 	  <Reference Include="Newtonsoft.Json">
 	    <HintPath>..\Libraries\Newtonsoft.Json.dll</HintPath>
 	    <Private>true</Private>
+	  </Reference>
+	  <Reference Include="TwitchToolkit">
+	    <HintPath>..\Libraries\TwitchToolkit.dll</HintPath>
+	    <Private>false</Private>
 	  </Reference>
 	</ItemGroup>
 

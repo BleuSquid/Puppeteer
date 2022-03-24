@@ -207,7 +207,10 @@ namespace Puppeteer
 					case "chat":
 						{
 							var chat = IncomingChat.Create(msg);
-							TwitchToolkit.SendMessage(chat.viewer.id, chat.viewer.name, chat.message);
+							if (TwitchToolkitMod.Exists)
+							{
+								TwitchToolkitMod.SendMessage(chat.viewer.id, chat.viewer.name, chat.message);
+							}
 							var puppeteer = State.Instance.PuppeteerForViewer(chat.viewer);
 							GeneralCommands.SendCoins(connection, puppeteer);
 							break;

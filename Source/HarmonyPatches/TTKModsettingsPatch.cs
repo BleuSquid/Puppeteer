@@ -39,7 +39,8 @@ namespace ΩPuppeteer.HarmonyPatches
             // Asks Harmony to grab the method TwitchToolkit.Helper:ReplacePlaceholder to be used later
             _replacePlaceholder = AccessTools.Method("TwitchToolkit.Helper:ReplacePlaceholder");
 
-            return true;
+
+            return (_usernameProperty !=null && _replacePlaceholder != null);
         }
 
         /// <summary>
