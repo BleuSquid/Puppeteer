@@ -372,7 +372,7 @@ namespace Puppeteer
 		static object GetToolkitItems(Pawn pawn, string[] args)
 		{
 			if (args.Length != 2) return new string[0];
-			return TwitchToolkit.GetFilteredItems(args[1]);
+			return TwitchToolkitMod.GetFilteredItems(args[1]);
 		}
 	}
 }
