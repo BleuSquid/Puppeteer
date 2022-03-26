@@ -115,9 +115,9 @@ namespace Puppeteer
 			public static bool Prefix(string message)
 			{
 				if (!message.Contains('→') && !message.StartsWith("@"))
-                {
+				{
 					return true;
-                }
+				}
 
 				/*var match = parser.Match(message);
 				if (!match.Success)
@@ -130,28 +130,35 @@ namespace Puppeteer
 				var puppeteer = State.Instance.PuppeteerForViewerName(username);
 
 				if (username == "" || newmessage == "")
-                {
+				{
 					string[] test = message.Split(' ');
 					puppeteer = State.Instance.PuppeteerForViewerName(test[0]);
-					if(puppeteer == null)
-                    {
+					if (puppeteer == null && !PuppeteerMod.Settings.ForcePuppeteerChat)
+					{
 						return true;
 					}
 					newmessage = message.Substring(test[0].Length + 1);
 				}
 
-				if (puppeteer == null || puppeteer.connected == false) return true;
+				if (puppeteer == null || puppeteer.connected == false)
+				{
+					if (!PuppeteerMod.Settings.ForcePuppeteerChat)
+					{
+						return true;
+					}
+					return false;
+				}
 
 				Controller.instance.SendChatMessage(puppeteer.vID, newmessage);
-				if (!PuppeteerMod.Settings.sendChatResponsesToTwitch)
-                {
+				if (!PuppeteerMod.Settings.sendChatResponsesToTwitch || PuppeteerMod.Settings.ForcePuppeteerChat)
+				{
 					return false;
-                }
+				}
 				return true;
 			}
 
 			private static string getname(string message)
-            {
+			{
 				string sendback = "";
 
 				if (message.Contains("→"))
@@ -161,17 +168,17 @@ namespace Puppeteer
 					if (userName.StartsWith("@")) userName = userName.Substring(1);
 					sendback = userName;
 				}
-				else if(message.StartsWith("@"))
+				else if (message.StartsWith("@"))
 				{
 					string[] name = message.Split(' ');
 					sendback = name[0].Substring(1);
 				}
 
 				return sendback;
-            }
+			}
 
 			private static string getmessage(string message)
-            {
+			{
 				string sendback = "";
 
 				if (message.Contains("→"))
@@ -188,7 +195,7 @@ namespace Puppeteer
 				}
 
 				return sendback;
-            }
+			}
 		}
 	}
 

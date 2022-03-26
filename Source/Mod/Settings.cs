@@ -16,6 +16,21 @@ namespace Puppeteer
 		public int playerActionCooldownTicks = GenDate.TicksPerHour;
 		public bool sendChatResponsesToTwitch = false;
 
+		public bool SendAction = false;
+		public bool SendDrop = false;
+		public bool SendDrafted = false;
+		public bool SendHostileresponse = false;
+		public bool SendSchedule = true;
+		public bool SendGizmo = false;
+		public bool SendZone = false;
+		public bool SendGoto = true;
+		public bool SendSelect = false;
+		public bool SendConsume = true;
+		public bool SendGrid = true;
+		public bool SendGlobalJob = true;
+		public bool SendPriority = true;
+		public bool ForcePuppeteerChat = false;
+
 		public HashSet<string> menuCommands = new HashSet<string>();
 	}
 
@@ -63,6 +78,48 @@ namespace Puppeteer
 
 				list.Gap(10f);
 				list.Dialog_Checkbox("SendChatResponsesToTwitch", ref settings.sendChatResponsesToTwitch);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("ForcePuppeteerChat", ref settings.ForcePuppeteerChat);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendGrid", ref settings.SendGrid);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendAction", ref settings.SendAction);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendGizmo", ref settings.SendGizmo);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendSchedule", ref settings.SendSchedule);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendPriority", ref settings.SendSchedule);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendDrafted", ref settings.SendDrafted);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendDrop", ref settings.SendDrop);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendGoto", ref settings.SendGoto);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendHostileresponse", ref settings.SendHostileresponse);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendZone", ref settings.SendZone);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendSelect", ref settings.SendSelect);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendConsume", ref settings.SendConsume);
+
+				//list.Gap(10f);
+				//list.Dialog_Checkbox("SendJob", ref settings.SendJob);
 			}
 
 			list.End();
