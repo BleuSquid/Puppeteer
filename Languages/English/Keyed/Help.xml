@@ -9,5 +9,26 @@
 	<SendChatResponsesToTwitch_Help>Normally if a viewer is using Puppeteer, all Twitch Toolkit responses go to their browser. This option makes the response also go to Twitch chat.</SendChatResponsesToTwitch_Help>
 	<CreateAreaHelp>Areas for restrictions. Each area is either global if it has no cells or specific to the cells marked (use +/- buttons to edit). You then turn areas on/off for each colonist in the previous list. Displaying areas can be turned on/off with a button in the bottom right of the screen.</CreateAreaHelp>
 	<EditAreaHelp>The list of restrictions is global and you can select (green checkmark) which are active for this area.</EditAreaHelp>
+	
+	
+	
+	<SendDrop_Help>Allows the Viewer to Drop their Gear/Items/Food etc. through Puppeteer</SendDrop_Help>
+	<SendAction_Help>Allows the Viewer to Command their Pawn Through the Map. (Haul, Harvest, Jail, etc.)</SendAction_Help>
+	<SendDrafted_Help>Allows the Viewer to Draft/Undraft their Pawn</SendDrafted_Help>
+	<SendHostileresponse_Help>Allows the Viewer to change the reaction the Pawn has to being Shot (default is flee)</SendHostileresponse_Help>
+	<SendPriority_Help>Allow the Viewer to change their Work Prios (Very Buggy, only works if streamer has the workinterface open)</SendPriority_Help>
+	<SendSchedule_Help>Allow the Viewer to change their Sleepschedule (Very Buggy, only works if streamer has the Scheduleinterface open)</SendSchedule_Help>
+	<SendGizmo_Help>Allow Custom Map Interactions (Mod Items). This is a very dangerous one as far as I can tell.</SendGizmo_Help>
+	<SendZone_Help>Allow Viewers to change their Area Restrictions</SendZone_Help>
+	<SendGoto_Help>Allows the Viewer to Move their Pawn when drafted.</SendGoto_Help>
+	<SendSelect_Help>I honestly haven't quite figured out yet how far this permission stretches</SendSelect_Help>
+    <SendConsume_Help>Nom Nom</SendConsume_Help>
+	<SendGrid_Help>This will stop your Client from sending the Puppeteer map to the Server. This should in theory massively increase Performance.</SendGrid_Help>
+	
+	<SendJob_Help>This also seems to be a massive permission, about general Pawn behaviour like Drug and Clothing Policy.</SendJob_Help>
+	
+	<ForcePuppeteerChat_Help>NUCLEAR OPTION: No TTK Botmessage will appear in your chat anymore. Forces Viewer to use Puppeteer website if they want to see the response.</ForcePuppeteerChat_Help>
+
+
 
 </LanguageData>
