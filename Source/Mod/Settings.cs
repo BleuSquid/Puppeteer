@@ -30,6 +30,7 @@ namespace Puppeteer
 		public bool SendGlobalJob = true;
 		public bool SendPriority = true;
 		public bool ForcePuppeteerChat = false;
+		public bool TryMagic = true;
 
 		public HashSet<string> menuCommands = new HashSet<string>();
 	}
@@ -81,6 +82,9 @@ namespace Puppeteer
 
 				list.Gap(10f);
 				list.Dialog_Checkbox("ForcePuppeteerChat", ref settings.ForcePuppeteerChat);
+
+				list.Gap(10f);
+				list.Dialog_Checkbox("TryMagic", ref settings.TryMagic);
 
 				list.Gap(10f);
 				list.Dialog_Checkbox("SendGrid", ref settings.SendGrid);

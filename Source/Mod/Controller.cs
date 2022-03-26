@@ -185,6 +185,8 @@ namespace Puppeteer
 
 						//Automagically assigning Pawns to Viewers with the same name (Sudo TTK automation)
 
+						if (!PuppeteerMod.Settings.TryMagic) break;
+
 						var Pup = State.Instance.PuppeteerForViewer(joiner);
 
 						if (Pup.puppet == null)
