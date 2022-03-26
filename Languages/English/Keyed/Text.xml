@@ -25,7 +25,7 @@
     <SendConsume>Enable Force Consuming Items/Food</SendConsume>
 	<SendGrid>Enable Puppeteer Map (reduces Performance)</SendGrid>
 	
-	<SendJob>No idea what this does yet.</SendJob>
+	<SendJob>Enable Multiple Features</SendJob>
 	
 	<ForcePuppeteerChat>Remove every single TTK Chatresponse</ForcePuppeteerChat>
 	

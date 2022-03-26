@@ -221,9 +221,6 @@ namespace Puppeteer
 					case "job":
 						{
 							var job = IncomingJob.Create(msg);
-
-							if (!PuppeteerMod.Settings.SendGlobalJob) return;
-
 							var puppeteer = State.Instance.PuppeteerForViewer(job.user);
 							Jobs.Run(connection, puppeteer, job);
 							break;
