@@ -29,6 +29,6 @@
 	
 	<ForcePuppeteerChat_Help>NUCLEAR OPTION: No TTK Botmessage will appear in your chat anymore. Forces Viewer to use Puppeteer website if they want to see the response.</ForcePuppeteerChat_Help>
 
-
+    <TryMagic_Help>Will try to automagically assign Viewers to their TTK Pawns</TryMagic_Help>
 
 </LanguageData>
