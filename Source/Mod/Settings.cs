@@ -122,8 +122,8 @@ namespace Puppeteer
 				list.Gap(10f);
 				list.Dialog_Checkbox("SendConsume", ref settings.SendConsume);
 
-				//list.Gap(10f);
-				//list.Dialog_Checkbox("SendJob", ref settings.SendJob);
+				list.Gap(10f);
+				list.Dialog_Checkbox("SendJob", ref settings.SendGlobalJob);
 			}
 
 			list.End();

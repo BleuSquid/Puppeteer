@@ -25,7 +25,7 @@
     <SendConsume_Help>Nom Nom</SendConsume_Help>
 	<SendGrid_Help>This will stop your Client from sending the Puppeteer map to the Server. This should in theory massively increase Performance.</SendGrid_Help>
 	
-	<SendJob_Help>This also seems to be a massive permission, about general Pawn behaviour like Drug and Clothing Policy.</SendJob_Help>
+	<SendJob_Help>This permissions allows viewers to: Choose a target to attack, Change their Weapon, Select Outfit policy, select Drug policy, and a few other minor things.</SendJob_Help>
 	
 	<ForcePuppeteerChat_Help>NUCLEAR OPTION: No TTK Botmessage will appear in your chat anymore. Forces Viewer to use Puppeteer website if they want to see the response.</ForcePuppeteerChat_Help>
 
