@@ -20,4 +20,7 @@
 		<li>hodlhodl.twitchtoolkit</li>
 		<li>sirrandoo.tku</li>
 	</loadAfter>
+  <incompatibleWith>
+    <li>falconne.labelsonfloor</li>
+  </incompatibleWith>
 </ModMetaData>
