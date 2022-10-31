@@ -175,7 +175,7 @@ namespace Puppeteer
 					return new Item
 					{
 						label = cmd.LabelCap,
-						icon = cmd.icon,
+						icon = (Texture2D)cmd.icon,
 						order = ((cmd is Designator_Uninstall) ? (-11f) : (-20f)),
 						disabled = cmd.disabled ? cmd.disabledReason : null,
 						allowed = Allowed(cmd),

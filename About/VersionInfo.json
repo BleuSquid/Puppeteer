@@ -542,6 +542,17 @@
 				]
 			}
 		]
+	},
+	{
+		"version": "1.6.3.0",
+		"infos": [
+			{
+				"title": "RimWorld 1.4 Update",
+				"texts": [
+					"Update for Rimworld 1.4"
+				]
+			}
+		]
 	}
 	
 ]

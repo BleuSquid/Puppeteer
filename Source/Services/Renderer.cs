@@ -152,13 +152,14 @@ namespace Puppeteer
 		{
 			var count = commands.Count;
 			var size = 75;
+			var scaledSize = (int)(size / Prefs.UIScale);
 
 			var renderTexture = RenderTexture.GetTemporary(count * size, size, 0, RenderTextureFormat.ARGB32);
 			RenderTexture.active = renderTexture;
 
 			GL.PushMatrix();
 			GL.LoadPixelMatrix(0, count * size, size, 0);
-			var rect = new Rect(0, 0, size, size);
+			var rect = new Rect(0, 0, scaledSize, scaledSize);
 
 			GizmoRenderParms GRP = new GizmoRenderParms
 			{
@@ -168,8 +169,8 @@ namespace Puppeteer
 			};
 			for (var i = 0; i < count; i++)
 			{
-				_ = commands[i].GizmoOnGUI(new Vector2(i * size, 0), 100000, GRP);
-				rect.x += size;
+				_ = commands[i].GizmoOnGUI(new Vector2(i * scaledSize, 0), 100000, GRP);
+				rect.x += scaledSize;
 			}
 			GL.PopMatrix();
 
