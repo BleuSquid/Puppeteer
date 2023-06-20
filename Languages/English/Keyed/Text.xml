@@ -11,5 +11,23 @@
 	<PlayerActionCooldownTicks>Control cooldown preventing respawn (game hours)</PlayerActionCooldownTicks>
 
 	<SendChatResponsesToTwitch>Send Toolkit chat responses to Twitch</SendChatResponsesToTwitch>
-
+	
+	<SendDrop>Enable Dropping Gear/Items</SendDrop>
+	<SendAction>Enable General Map Interaction</SendAction>
+	<SendDrafted>Enable Drafting</SendDrafted>
+	<SendHostileresponse>Enable Changing Combat Response</SendHostileresponse>
+	<SendPriority>Enable Changing Priority</SendPriority>
+	<SendSchedule>Enable Changing Schedule</SendSchedule>
+	<SendGizmo>Allow Custom Map Interactions (Mod Items)</SendGizmo>
+	<SendZone>Allow Changing allowed Zones</SendZone>
+	<SendGoto>Enable Moving Drafted Pawns</SendGoto>
+	<SendSelect>Allow Selecting of Areas</SendSelect>
+    <SendConsume>Enable Force Consuming Items/Food</SendConsume>
+	<SendGrid>Enable Puppeteer Map (reduces Performance)</SendGrid>
+	
+	<SendJob>Enable Multiple Features</SendJob>
+	
+	<ForcePuppeteerChat>Remove every single TTK Chatresponse</ForcePuppeteerChat>
+	
+	<TryMagic>Automatically Assign Pawns</TryMagic>
 </LanguageData>

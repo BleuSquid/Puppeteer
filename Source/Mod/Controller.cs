@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Timers;
+using TwitchToolkit.PawnQueue;
 using UnityEngine;
 using Verse;
 using static HarmonyLib.AccessTools;
@@ -147,6 +148,20 @@ namespace Puppeteer
 			}
 		}
 
+		public static Pawn trygetpawnfromviewer(ViewerID thebase)
+		{
+
+			if (!((GameComponentPawns)Current.Game.GetComponent<GameComponentPawns>()).HasUserBeenNamed(thebase.name))
+			{
+				//Log.Warning("User " + thebase.name + " joined and tried to claim a unassigned TTK Pawn.");
+				return null;
+			}
+
+			return Find.Maps
+				.SelectMany(map => PlayerPawns.FreeColonists(map, false))
+				.FirstOrDefault(pawn => ((NameTriple)pawn.Name).Nick == thebase.name);
+		}
+
 		public void Message(byte[] msg)
 		{
 			if (connection == null) return;
@@ -164,7 +179,25 @@ namespace Puppeteer
 							break;
 						}
 					case "join":
-						GeneralCommands.Join(connection, Join.Create(msg).viewer);
+						var joiner = Join.Create(msg).viewer;
+
+						GeneralCommands.Join(connection, joiner);
+
+						//Automagically assigning Pawns to Viewers with the same name (Sudo TTK automation)
+
+						if (!PuppeteerMod.Settings.TryMagic) break;
+
+						var Pup = State.Instance.PuppeteerForViewer(joiner);
+
+						if (Pup.puppet == null)
+						{
+							Pawn viewerpawn = trygetpawnfromviewer(joiner);
+							if (viewerpawn != null)
+							{
+								AssignViewerToPawn(joiner, viewerpawn);
+								Log.Warning("Automagically assigned  " + joiner.name + " to his assigned TTK pawn.");
+							}
+						}
 						break;
 					case "leave":
 						GeneralCommands.Leave(Leave.Create(msg).viewer);

@@ -46,6 +46,7 @@ namespace Puppeteer
 
 				case "attack-target":
 					if (settings.enabled == false) return;
+					if (!PuppeteerMod.Settings.SendGlobalJob) return;
 					RunOnQueue(AttackTarget, job.method);
 					break;
 
@@ -55,6 +56,7 @@ namespace Puppeteer
 
 				case "select-weapon":
 					if (settings.enabled == false) return;
+					if (!PuppeteerMod.Settings.SendGlobalJob) return;
 					RunOnQueue(SelectWeapon, job.method);
 					break;
 
@@ -64,6 +66,7 @@ namespace Puppeteer
 
 				case "select-outfit":
 					if (settings.enabled == false) return;
+					if (!PuppeteerMod.Settings.SendGlobalJob) return;
 					RunOnQueue(SelectOutfit, job.method);
 					break;
 
@@ -73,6 +76,7 @@ namespace Puppeteer
 
 				case "select-drug":
 					if (settings.enabled == false) return;
+					if (!PuppeteerMod.Settings.SendGlobalJob) return;
 					RunOnQueue(SelectDrug, job.method);
 					break;
 
@@ -82,6 +86,7 @@ namespace Puppeteer
 
 				case "do-rest":
 					if (settings.enabled == false) return;
+					if (!PuppeteerMod.Settings.SendGlobalJob) return;
 					RunOnQueue(DoRest, job.method);
 					break;
 
@@ -91,6 +96,7 @@ namespace Puppeteer
 
 				case "do-tend":
 					if (settings.enabled == false) return;
+					if (!PuppeteerMod.Settings.SendGlobalJob) return;
 					RunOnQueue(DoTend, job.method);
 					break;
 

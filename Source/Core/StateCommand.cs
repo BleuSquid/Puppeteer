@@ -32,12 +32,14 @@ namespace Puppeteer
 				{
 					case "hostile-response":
 						if (settings.enabled == false) return;
+						if (!PuppeteerMod.Settings.SendHostileresponse) return;
 						var responseMode = (HostilityResponseMode)Enum.Parse(typeof(HostilityResponseMode), state.val.ToString());
 						pawn.playerSettings.hostilityResponse = responseMode;
 						pawn.RemoteLog($"Response Mode to {responseMode}");
 						break;
 					case "drafted":
 						if (settings.enabled == false) return;
+						if (!PuppeteerMod.Settings.SendDrafted) return;
 						var drafted = Convert.ToBoolean(state.val);
 						if (Tools.CannotMoveOrDo(pawn) == false)
 							pawn.FakeDraft(drafted);
@@ -45,6 +47,7 @@ namespace Puppeteer
 						break;
 					case "zone":
 						if (settings.enabled == false) return;
+						if (!PuppeteerMod.Settings.SendZone) return;
 						var area = pawn.Map.areaManager.AllAreas.Where(a => a.AssignableAsAllowed()).FirstOrDefault(a => a.Label == state.val.ToString());
 						pawn.playerSettings.AreaRestriction = area;
 						pawn.RemoteLog(area == null ? "Area unrestricted" : $"Area restricted to {area.Label}");
@@ -52,6 +55,7 @@ namespace Puppeteer
 					case "priority":
 						{
 							if (settings.enabled == false) return;
+							if (!PuppeteerMod.Settings.SendPriority) return;
 							var val = Convert.ToInt32(state.val);
 							var idx = val / 100;
 							var prio = val % 100;
@@ -66,6 +70,7 @@ namespace Puppeteer
 					case "schedule":
 						{
 							if (settings.enabled == false) return;
+							if (!PuppeteerMod.Settings.SendSchedule) return;
 							var pair = Convert.ToString(state.val).Split(':');
 							if (pair.Length == 2)
 							{
@@ -86,6 +91,7 @@ namespace Puppeteer
 						}
 					case "grid":
 						{
+							if (!PuppeteerMod.Settings.SendGrid) return;
 							var grid = Tools.SafeParse(state.val, 4);
 							Renderer.RenderMap(puppeteer, grid);
 							break;
@@ -93,6 +99,7 @@ namespace Puppeteer
 					case "goto":
 						{
 							if (settings.enabled == false) return;
+							if (!PuppeteerMod.Settings.SendGoto) return;
 							var val = Convert.ToString(state.val);
 							var coordinates = val.Split(',').Select(v => { if (int.TryParse(v, out var n)) return n; else return -1000; }).ToArray();
 							if (coordinates.Length == 2)
@@ -154,6 +161,7 @@ namespace Puppeteer
 					case "action":
 						{
 							if (settings.enabled == false) return;
+							if (!PuppeteerMod.Settings.SendAction) return;
 							var id = Convert.ToString(state.val);
 							_ = Actions.RunAction(pawn, id);
 							break;
@@ -161,6 +169,7 @@ namespace Puppeteer
 					case "select":
 						{
 							var val = Convert.ToString(state.val);
+							if (!PuppeteerMod.Settings.SendSelect) return;
 							var coordinates = val.Split(',').Select(v => { if (int.TryParse(v, out var n)) return n; else return -1000; }).ToArray();
 							if (coordinates.Length == 2)
 							{
@@ -256,6 +265,7 @@ namespace Puppeteer
 					case "gizmo":
 						{
 							if (settings.enabled == false) return;
+							if (!PuppeteerMod.Settings.SendGizmo) return;
 							var id = Convert.ToString(state.val);
 							_ = GizmosHandler.RunAction(pawn, id);
 							break;
@@ -263,6 +273,7 @@ namespace Puppeteer
 					case "consume":
 						{
 							if (settings.enabled == false) return;
+							if (!PuppeteerMod.Settings.SendConsume) return;
 							var id = Convert.ToString(state.val);
 							var thing = pawn.inventory.GetDirectlyHeldThings().FirstOrDefault(t => t.ThingID == id);
 							if (thing != null)
@@ -277,6 +288,7 @@ namespace Puppeteer
 					case "drop":
 						{
 							if (settings.enabled == false) return;
+							if (!PuppeteerMod.Settings.SendDrop) return;
 							var id = Convert.ToString(state.val);
 							var thing = pawn.inventory.GetDirectlyHeldThings().FirstOrDefault(t => t.ThingID == id);
 							if (thing != null)
